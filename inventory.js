@@ -308,7 +308,6 @@ if (inventoryRoot) {
     const dimensions = formatDimensions(record.media);
     const imageUrl = record.images?.[0] || screen.image;
     const price = formatPrice(record.pricing?.monthly_price_inr);
-    const slot = record.playback.slot_seconds;
     const ownership = record.inventory_type === "owned" ? "tūvi pixel" : record.inventory_type === "partner" ? "Partner screen" : null;
     const card = document.createElement("article");
     card.className = `inventory-card${screen.combined ? " inventory-card--combined" : ""}`;
@@ -322,13 +321,12 @@ if (inventoryRoot) {
         <div class="inventory-card__content">
           <span class="inventory-card__meta">${escapeHtml(record.location.locality)} · ${escapeHtml(record.city)}</span>
           <h4>${escapeHtml(screen.name)}</h4>
-          ${screen.combined ? '<p class="inventory-card__description">Includes Meanee Avenue + Assaye Road.</p>' : ""}
+          <!-- Keep the catalogue summary short; playback and campaign facts live in the drawer. -->
           <div class="inventory-card__metrics">
             <span><small>${screen.combined ? "Listed size" : "Screen size"}</small>${escapeHtml(dimensions || "Ask us")}</span>
-            <span><small>Ad slot</small>${slot == null ? "Ask us" : `${escapeHtml(slot)} sec`}</span>
+            <div class="inventory-card__price"><strong>${escapeHtml(price || "Price on request")}</strong>${price ? '<span>/ month</span>' : ""}</div>
           </div>
-          <div class="inventory-card__price"><strong>${escapeHtml(price || "Price on request")}</strong>${price ? '<span>/ month</span>' : ""}</div>
-          <span class="inventory-card__action">${screen.combined ? "Explore both screens" : "View screen details"} <b aria-hidden="true">↗</b></span>
+          <span class="inventory-card__action">View screen details <b aria-hidden="true">↗</b></span>
         </div>
       </button>`;
     return card;

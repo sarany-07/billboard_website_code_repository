@@ -2831,9 +2831,10 @@ button {
   justify-content: space-between;
   flex-direction: column;
   width: 100%;
-  aspect-ratio: 16 / 10;
-  min-height: 13rem;
-  padding: 1.2rem;
+  aspect-ratio: 2 / 1;
+  min-height: 0;
+  flex-shrink: 0;
+  padding: 1rem;
   color: white;
   background: #11131d;
   overflow: hidden;
@@ -2886,7 +2887,7 @@ button {
   flex-direction: column;
   flex: 1;
   width: 100%;
-  padding: clamp(1.1rem, 2vw, 1.6rem);
+  padding: 1.1rem 1.2rem;
 }
 
 .inventory-card__meta {
@@ -2897,35 +2898,32 @@ button {
 }
 
 .inventory-card h4 {
-  margin: 0.5rem 0 0.65rem;
-  font-size: clamp(1.35rem, 2vw, 1.75rem);
+  margin: 0.4rem 0 1.1rem;
+  font-size: clamp(1.125rem, 1.5vw, 1.35rem);
   font-weight: 500;
   line-height: 1.2;
   letter-spacing: -0.02em;
   overflow-wrap: anywhere;
-}
-
-.inventory-card__description {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   overflow: hidden;
-  margin: 0 0 1.5rem;
-  color: #62646d;
-  font-size: 14px;
-  line-height: 1.6;
 }
 
+/* Size and price share one compact row; wrap long prices without overflowing. */
 .inventory-card__price {
   display: flex;
+  justify-content: flex-end;
   align-items: baseline;
   flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-top: 1.5rem;
+  gap: 0.2rem 0.35rem;
+  min-width: 0;
+  text-align: right;
+  overflow-wrap: anywhere;
 }
 
 .inventory-card__price strong {
-  font-size: clamp(1.25rem, 1.7vw, 1.5rem);
+  font-size: clamp(1rem, 1.3vw, 1.2rem);
   font-weight: 600;
   letter-spacing: -0.025em;
 }
@@ -2939,21 +2937,6 @@ button {
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 1rem;
   }
-  .inventory-grid--catalogue .inventory-card__visual {
-    aspect-ratio: 16 / 9;
-    min-height: 10rem;
-  }
-  .inventory-grid--catalogue .inventory-card__content { padding: 1.15rem; }
-  .inventory-grid--catalogue .inventory-card h4 {
-    font-size: 1.25rem;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    overflow: hidden;
-  }
-  .inventory-grid--catalogue .inventory-card__description { margin-bottom: 1rem; }
-  .inventory-grid--catalogue .inventory-card__price { margin-top: 1rem; }
-  .inventory-grid--catalogue .inventory-card__action { margin-top: 1rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2962,8 +2945,9 @@ button {
 
 .inventory-card__metrics {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.5rem;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  align-items: end;
+  gap: 0.75rem;
   margin-top: auto;
 }
 
@@ -2987,8 +2971,8 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 1.5rem;
-  padding-top: 1rem;
+  margin-top: 1rem;
+  padding-top: 0.85rem;
   border-top: 1px solid #deddd7;
   font-size: 14px;
   font-weight: 600;
@@ -3004,7 +2988,7 @@ button {
 }
 
 .inventory-skeleton {
-  min-height: 31rem;
+  min-height: 23rem;
   background:
     linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent),
     #d7d6d0;
@@ -3388,10 +3372,6 @@ button {
 
   .inventory-toolbar select {
     margin-left: auto;
-  }
-
-  .inventory-card__visual {
-    min-height: 13rem;
   }
 
   .inventory-grid {
