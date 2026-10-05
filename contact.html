@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Plan your campaign with tūvi pixel at Mother Teresa Circle, Bengaluru. Ask about screens, availability and pricing."
+    >
+    <meta name="theme-color" content="#090b10">
+    <title>Contact tūvi pixel — Plan Your Campaign</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+  </head>
+  <body class="contact-page">
+    <a class="skip-link" href="#contact-main">Skip to contact form</a>
+
+    <!-- Contact-page navigation links back to completed homepage sections. -->
+    <header class="site-header is-scrolled" data-header>
+      <a class="brand" href="index.html" aria-label="tūvi pixel home">
+        <!-- Text wordmark until approved logo artwork is available. -->
+        <span class="brand__logo brand-wordmark">tūvi pixel</span>
+      </a>
+
+      <button
+        class="menu-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="primary-navigation"
+        aria-label="Open navigation"
+        data-menu-toggle
+      >
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="site-nav" id="primary-navigation" aria-label="Primary navigation" data-nav>
+        <a href="index.html#digital">Our difference</a>
+        <a href="index.html#formats">Our screens</a>
+        <a href="index.html#locations">Screen details</a>
+        <a href="index.html#industries">Industries</a>
+      </nav>
+
+      <a class="header-cta" href="#enquiry-form">
+        Send an enquiry
+        <svg viewBox="0 0 18 18" aria-hidden="true">
+          <path d="M4 9h10M10 5l4 4-4 4"></path>
+        </svg>
+      </a>
+    </header>
+
+    <main class="contact-main" id="contact-main">
+      <!-- Contact introduction keeps the ask direct and campaign-focused. -->
+      <section class="contact-intro" aria-labelledby="contact-title">
+        <div class="contact-intro__copy">
+          <p class="contact-intro__eyebrow reveal">Let’s work together</p>
+          <h1 class="reveal" id="contact-title">
+            Let’s give your idea
+            <span>a bigger canvas.</span>
+          </h1>
+          <p class="contact-intro__lead reveal">
+            Tell us what you’re planning at Mother Teresa Circle.
+            We’ll help you choose a screen and confirm availability and pricing.
+          </p>
+
+          <div class="contact-intro__notes reveal">
+            <div>
+              <span>01</span>
+              <p>Share your idea and preferred dates.</p>
+            </div>
+            <div>
+              <span>02</span>
+              <p>Explore one billboard face or both.</p>
+            </div>
+            <div>
+              <span>03</span>
+              <p>Get the details you need to plan.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- script.js handles submission; field names match the enquiry sheet. -->
+        <div class="contact-form-wrap reveal" id="enquiry-form">
+          <div class="contact-form__heading">
+            <span>Campaign enquiry</span>
+            <p>Fields marked with * are required.</p>
+          </div>
+
+          <form class="contact-form" action="#" method="post" novalidate data-contact-form>
+            <!-- Kept out of the customer UI; submitted for admin enquiry tracking. -->
+            <input name="billboard" type="hidden" data-selected-billboard>
+            <div class="form-honeypot" aria-hidden="true">
+              <label for="contact-website">Leave this field empty</label>
+              <input id="contact-website" name="website" type="text" tabindex="-1" autocomplete="off">
+            </div>
+            <div class="form-grid">
+              <div class="form-field">
+                <label for="contact-name">Your name *</label>
+                <input
+                  id="contact-name"
+                  name="name"
+                  type="text"
+                  autocomplete="name"
+                  placeholder="Full name"
+                  required
+                >
+                <span class="form-error" data-error-for="contact-name"></span>
+              </div>
+
+              <div class="form-field">
+                <label for="contact-company">Company *</label>
+                <input
+                  id="contact-company"
+                  name="company"
+                  type="text"
+                  autocomplete="organization"
+                  placeholder="Company name"
+                  required
+                >
+                <span class="form-error" data-error-for="contact-company"></span>
+              </div>
+
+              <div class="form-field">
+                <label for="contact-email">Work email *</label>
+                <input
+                  id="contact-email"
+                  name="email"
+                  type="email"
+                  autocomplete="email"
+                  inputmode="email"
+                  placeholder="name@company.com"
+                  required
+                >
+                <span class="form-error" data-error-for="contact-email"></span>
+              </div>
+
+              <div class="form-field">
+                <label for="contact-phone">Phone number</label>
+                <input
+                  id="contact-phone"
+                  name="phone"
+                  type="tel"
+                  autocomplete="tel"
+                  inputmode="tel"
+                  placeholder="+91 00000 00000"
+                >
+                <span class="form-error" data-error-for="contact-phone"></span>
+              </div>
+
+              <div class="form-field form-field--full">
+                <label for="contact-timeline">Preferred timeline</label>
+                <select id="contact-timeline" name="timeline">
+                  <option value="">Select a timeline</option>
+                  <option value="asap">As soon as possible</option>
+                  <option value="one-month">Within one month</option>
+                  <option value="three-months">Within three months</option>
+                  <option value="exploring">Just exploring</option>
+                </select>
+              </div>
+
+              <div class="form-field form-field--full">
+                <label for="contact-location">Preferred screen (optional)</label>
+                <input
+                  id="contact-location"
+                  name="locations"
+                  type="text"
+                  placeholder="Meanee Avenue, Assaye Road, both, or help me choose"
+                >
+              </div>
+
+              <div class="form-field form-field--full">
+                <label for="contact-message">Tell us about the campaign *</label>
+                <textarea
+                  id="contact-message"
+                  name="message"
+                  rows="5"
+                  placeholder="Your objective, audience, timing and anything else we should know"
+                  required
+                ></textarea>
+                <span class="form-error" data-error-for="contact-message"></span>
+              </div>
+            </div>
+
+            <label class="form-consent">
+              <input type="checkbox" name="consent" required data-consent>
+              <span>
+                I agree that tūvi pixel may use these details to respond to my enquiry. *
+              </span>
+            </label>
+            <span class="form-error" data-error-for="consent"></span>
+
+            <div class="contact-form__actions">
+              <button type="submit">
+                Send enquiry
+                <span aria-hidden="true">
+                  <svg viewBox="0 0 20 20">
+                    <path d="M4 10h12M11 5l5 5-5 5"></path>
+                  </svg>
+                </span>
+              </button>
+              <p>We’ll use your details only to discuss your campaign.</p>
+            </div>
+
+            <div class="form-status" role="status" aria-live="polite" data-form-status hidden></div>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <!-- Shared brand footer with links back to the landing page. -->
+    <footer class="site-footer" aria-label="Site footer">
+      <!-- Shared footer: keep navigation and location details consistent on both pages. -->
+      <div class="site-footer__top">
+        <div class="footer-identity">
+          <a class="footer-brand" href="index.html" aria-label="tūvi pixel home">
+            <span class="brand-wordmark">tūvi pixel</span>
+          </a>
+          <p class="footer-identity__headline">Two faces.<br>One lasting impression.</p>
+          <p class="footer-identity__copy">Connected digital billboards at the meeting of Meanee Avenue and Assaye Road.</p>
+          <a class="footer-contact" href="#enquiry-form">
+            Send an enquiry <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+
+        <nav class="footer-nav" aria-label="Footer navigation">
+          <div>
+            <h2>Explore</h2>
+            <a href="index.html#digital">About tūvi pixel</a>
+            <a href="index.html#formats">Our screens</a>
+            <a href="index.html#locations">Screen details</a>
+          </div>
+          <div>
+            <h2>Plan with us</h2>
+            <a href="index.html#industries">Industries</a>
+            <a href="index.html#work">Our standard</a>
+            <a href="#enquiry-form">Contact us</a>
+          </div>
+        </nav>
+
+        <a class="footer-location" href="index.html#formats" aria-label="Explore our screens at Mother Teresa Circle">
+          <div class="footer-location__image">
+            <img src="assets/mother-teresa-circle-01-clear.png" alt="Concept illustration of the connected corner billboard" width="1672" height="941" loading="lazy">
+            <span>Bengaluru · India</span>
+          </div>
+          <div class="footer-location__caption">
+            <div>
+              <span>Our landmark</span>
+              <strong>Mother Teresa Circle</strong>
+              <p>Halasuru · Two connected faces</p>
+            </div>
+            <span class="footer-location__arrow" aria-hidden="true">↗</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="site-footer__bottom">
+        <p>© <span data-current-year>2026</span> tūvi pixel. All rights reserved.</p>
+        <p class="footer-signoff">Made for brands on the move.</p>
+        <button type="button" data-back-to-top>
+          Back to top <span aria-hidden="true">↑</span>
+        </button>
+      </div>
+    </footer>
+  </body>
+</html>
