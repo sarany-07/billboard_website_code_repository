@@ -26,8 +26,20 @@ navigation?.querySelectorAll("a").forEach((link) => {
 });
 
 document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") closeMenu();
+  if (event.key === "Escape" && menuButton?.getAttribute("aria-expanded") === "true") {
+    closeMenu();
+    menuButton.focus();
+  }
 });
+
+// This is a non-modal dropdown: allow normal tabbing and close when leaving it.
+document.addEventListener("pointerdown", (event) => {
+  if (header && !header.contains(event.target)) closeMenu();
+});
+header?.addEventListener("focusout", (event) => {
+  if (!header.contains(event.relatedTarget)) closeMenu();
+});
+window.matchMedia("(max-width: 960px)").addEventListener("change", closeMenu);
 
 let scrollTicking = false;
 let updateActiveNavigation = () => {};
@@ -125,7 +137,7 @@ const showcaseSlides = [...document.querySelectorAll("[data-showcase-slide]")];
 const showcaseCounter = document.querySelector("[data-showcase-current]");
 const showcaseEnquire = document.querySelector("[data-showcase-enquire]");
 // Named choices do not depend on editable Google Sheet inventory IDs.
-// The contact form stores this preference in its existing `locations` field.
+// The screen query stays in source_page for admin context, without a visible form field.
 const showcaseChoices = [
   { key: "meanee-avenue", name: "Meanee Avenue" },
   { key: "assaye-road", name: "Assaye Road" },
@@ -317,14 +329,6 @@ if (contactForm) {
   const formStatus = contactForm.querySelector("[data-form-status]");
   const submitButton = contactForm.querySelector('button[type="submit"]');
   const billboardId = new URLSearchParams(window.location.search).get("billboard")?.trim();
-  // Accept only our known screen choices and keep the preference editable.
-  const screenKey = new URLSearchParams(window.location.search).get("screen");
-  const screenChoice = showcaseChoices.find((choice) => choice.key === screenKey);
-  const preferredScreen = contactForm.querySelector('[name="locations"]');
-  if (screenChoice && preferredScreen) {
-    preferredScreen.value = screenChoice.name;
-    preferredScreen.defaultValue = screenChoice.name;
-  }
 
   // Preserve the inventory ID invisibly so the future admin sheet can store it.
   if (billboardId) {

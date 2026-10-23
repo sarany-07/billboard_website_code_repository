@@ -118,7 +118,7 @@ if (inventoryRoot) {
         field = "";
       } else {
         field += character;
-      }
+      }  
     }
     if (field || row.length) {
       row.push(field);
@@ -187,7 +187,7 @@ if (inventoryRoot) {
 
     const ids = new Set();
     const records = [];
-    rows.forEach((row, index) => {
+    rows.forEach((row, index) => { 
       if (cleanText(row.status)?.toLowerCase() !== "published") return;
 
       const id = cleanText(row.billboard_id);
@@ -213,6 +213,11 @@ if (inventoryRoot) {
       const calculatedSqft = Math.round(width * height * 100) / 100;
       records.push({
         id,
+        // Availability is explicit; dates never automatically release a booked screen.
+        booking_status: ["available", "booked"].includes(cleanText(row.booking_status)?.toLowerCase())
+          ? cleanText(row.booking_status).toLowerCase()
+          : null,
+        booked_until: cleanText(row.booked_until),
         // Optional public classification: blank/unknown must never imply ownership.
         inventory_type: ["owned", "partner"].includes(cleanText(row.inventory_type)?.toLowerCase())
           ? cleanText(row.inventory_type).toLowerCase()
@@ -295,6 +300,7 @@ if (inventoryRoot) {
     const atOurJunction = record.inventory_type === "owned" && /^(halasuru|ulsoor)$/i.test(record.location.locality.trim());
     const meanee = atOurJunction && /\bmeanee\b/.test(normalized);
     const assaye = atOurJunction && /\bassaye\b/.test(normalized);
+    
     if (meanee && assaye) {
       return { name: "Connected canvas", badge: "Both faces", description: "Meanee Avenue + Assaye Road. One campaign across the corner.", image: "assets/mother-teresa-circle-01-clear.png", combined: true };
     }
@@ -303,12 +309,27 @@ if (inventoryRoot) {
     return { name, badge: record.media.type || "Billboard", description: record.location.display, image: inventoryImages[0] };
   };
 
+  // Validate calendar dates strictly and format in UTC to avoid timezone day shifts.
+  const formatBookedUntil = (value) => {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(value || "")) return null;
+    const date = new Date(`${value}T00:00:00Z`);
+    if (!Number.isFinite(date.getTime()) || date.toISOString().slice(0, 10) !== value) return null;
+    return new Intl.DateTimeFormat("en-GB", {
+      day: "numeric", month: "short", year: "numeric", timeZone: "UTC"
+    }).format(date);
+  };
+
+  const createBookingBadge = (record) => {
+    if (record.booking_status !== "booked") return "";
+    const until = formatBookedUntil(record.booked_until);
+    return `<span class="inventory-booking inventory-booking--booked"><span class="inventory-booking__badge">Booked</span>${until ? `<small>Through ${escapeHtml(until)}</small>` : ""}</span>`;
+  };
+
   const createCard = (record) => {
     const screen = getScreenPresentation(record);
     const dimensions = formatDimensions(record.media);
     const imageUrl = record.images?.[0] || screen.image;
     const price = formatPrice(record.pricing?.monthly_price_inr);
-    const slot = record.playback.slot_seconds;
     const ownership = record.inventory_type === "owned" ? "tūvi pixel" : record.inventory_type === "partner" ? "Partner screen" : null;
     const card = document.createElement("article");
     card.className = `inventory-card${screen.combined ? " inventory-card--combined" : ""}`;
@@ -316,19 +337,21 @@ if (inventoryRoot) {
       <button type="button" data-inventory-card="${escapeHtml(record.id)}" aria-label="View details for ${escapeHtml(screen.name)}">
         <div class="inventory-card__visual">
           <img src="${escapeHtml(imageUrl)}" alt="" loading="lazy">
-          <span>${escapeHtml(ownership || screen.badge)}</span>
+          <div class="inventory-card__badges">
+            <span class="inventory-card__ownership">${escapeHtml(ownership || screen.badge)}</span>
+            ${createBookingBadge(record)}
+          </div>
           ${record.images?.length ? "" : '<small class="inventory-card__illustration">Illustrative view</small>'}
         </div>
         <div class="inventory-card__content">
           <span class="inventory-card__meta">${escapeHtml(record.location.locality)} · ${escapeHtml(record.city)}</span>
           <h4>${escapeHtml(screen.name)}</h4>
-          ${screen.combined ? '<p class="inventory-card__description">Includes Meanee Avenue + Assaye Road.</p>' : ""}
+          <!-- Keep the catalogue summary short; playback and campaign facts live in the drawer. -->
           <div class="inventory-card__metrics">
             <span><small>${screen.combined ? "Listed size" : "Screen size"}</small>${escapeHtml(dimensions || "Ask us")}</span>
-            <span><small>Ad slot</small>${slot == null ? "Ask us" : `${escapeHtml(slot)} sec`}</span>
+            <div class="inventory-card__price"><strong>${escapeHtml(price || "Price on request")}</strong>${price ? '<span>/ month</span>' : ""}</div>
           </div>
-          <div class="inventory-card__price"><strong>${escapeHtml(price || "Price on request")}</strong>${price ? '<span>/ month</span>' : ""}</div>
-          <span class="inventory-card__action">${screen.combined ? "Explore both screens" : "View screen details"} <b aria-hidden="true">↗</b></span>
+          <span class="inventory-card__action">View screen details <b aria-hidden="true">↗</b></span>
         </div>
       </button>`;
     return card;
