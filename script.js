@@ -26,8 +26,20 @@ navigation?.querySelectorAll("a").forEach((link) => {
 });
 
 document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") closeMenu();
+  if (event.key === "Escape" && menuButton?.getAttribute("aria-expanded") === "true") {
+    closeMenu();
+    menuButton.focus();
+  }
 });
+
+// This is a non-modal dropdown: allow normal tabbing and close when leaving it.
+document.addEventListener("pointerdown", (event) => {
+  if (header && !header.contains(event.target)) closeMenu();
+});
+header?.addEventListener("focusout", (event) => {
+  if (!header.contains(event.relatedTarget)) closeMenu();
+});
+window.matchMedia("(max-width: 960px)").addEventListener("change", closeMenu);
 
 let scrollTicking = false;
 let updateActiveNavigation = () => {};

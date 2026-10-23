@@ -1,5 +1,22 @@
 # Single-Tab Google Sheets Template
 
+## Booking status (optional additional columns)
+
+Append `booking_status` and `booked_until` to the existing Inventory header.
+Use a dropdown with `available` and `booked` for booking_status.
+Set booked_until to `YYYY-MM-DD` (for example `2026-10-31`), or leave it blank.
+Format that date column to export as `yyyy-mm-dd` in the published CSV.
+
+- `available`: no badge or dot; any date is ignored.
+- `booked`: Booked badge, plus “Through 31 Oct 2026” if the date is valid.
+- Blank/unknown status: no availability indicator. Invalid/blank date: badge only.
+- Keep `status` as `published` to show a booked listing. Change booking_status
+  manually when released; an expired date does not automatically make it available.
+- Set each booking option independently, including the combined option when needed.
+  The website does not infer bookings between related rows.
+
+These two optional columns extend the base template below; no new tab is needed.
+
 Use one Google Sheets tab named `Inventory`. This is the only tab the admin
 needs to edit and the same tab the website reads as CSV.
 
